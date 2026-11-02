@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: attributioniq-postgres
+    restart: always
+
+    environment:
+      POSTGRES_DB: attributioniq
+      POSTGRES_USER: attribution
+      POSTGRES_PASSWORD: local_dev_password
+
+    ports:
+      - "127.0.0.1:5432:5432"
+
+    volumes:
+      - attributioniq-postgres-data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U attribution -d attributioniq"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  attributioniq-postgres-data:

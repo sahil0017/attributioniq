@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AttributionIQ</title>
+  <style>
+    body { font: 15px system-ui, sans-serif; margin: 2rem auto; max-width: 1100px; padding: 0 1rem; color: #17212b; }
+    h1 { margin-bottom: .25rem; }
+    form { display: flex; flex-wrap: wrap; gap: .75rem; align-items: end; margin: 1.5rem 0; }
+    label { display: grid; gap: .25rem; }
+    input, select, button { font: inherit; padding: .45rem; }
+    button { cursor: pointer; }
+    .error { color: #a12622; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0 2rem; }
+    th, td { padding: .55rem; border-bottom: 1px solid #dce2e7; text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    h2 { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>First-party attribution</h1>
+  <p>Revenue is assigned to the first/last session touch within seven days before the order.</p>
+  <form id="filters">
+    <label>From <input id="from" type="date" required></label>
+    <label>To <input id="to" type="date" required></label>
+    <label>Model
+      <select id="model"><option value="last_click">Last click</option><option value="first_click">First click</option></select>
+    </label>
+    <button type="submit">Apply</button>
+  </form>
+  <p id="message" role="status"></p>
+  <h2>Channel totals</h2>
+  <table><thead><tr><th>Channel</th><th>Orders</th><th>Revenue (INR)</th><th>Ad spend (INR)</th><th>ROAS</th></tr></thead><tbody id="channels"></tbody></table>
+  <h2>Daily performance</h2>
+  <table><thead><tr><th>Date</th><th>Channel</th><th>Orders</th><th>Revenue (INR)</th><th>Ad spend (INR)</th><th>ROAS</th></tr></thead><tbody id="daily"></tbody></table>
+  <script>
+    const form = document.querySelector('#filters');
+    const message = document.querySelector('#message');
+    const money = value => Number(value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const cell = (row, value) => { const td = document.createElement('td'); td.textContent = value; row.append(td); };
+
+    async function loadReport() {
+      const params = new URLSearchParams({ from: document.querySelector('#from').value,
+        to: document.querySelector('#to').value, model: document.querySelector('#model').value });
+      message.textContent = 'Loading…';
+      message.className = '';
+      try {
+        const response = await fetch(`/api/reports/channels?${params}`);
+        if (!response.ok) throw new Error(await response.text());
+        const report = await response.json();
+        const channels = document.querySelector('#channels');
+        const daily = document.querySelector('#daily');
+        channels.replaceChildren();
+        daily.replaceChildren();
+        for (const item of report.channels) {
+          const row = document.createElement('tr');
+          cell(row, item.channel); cell(row, item.orders); cell(row, money(item.revenueInr));
+          cell(row, money(item.spendInr)); cell(row, item.roas == null ? '—' : Number(item.roas).toFixed(2));
+          channels.append(row);
+        }
+        for (const item of report.daily) {
+          const row = document.createElement('tr');
+          cell(row, item.day); cell(row, item.channel); cell(row, item.orders);
+          cell(row, money(item.revenueInr)); cell(row, money(item.spendInr));
+          cell(row, item.roas == null ? '—' : Number(item.roas).toFixed(2));
+          daily.append(row);
+        }
+        message.textContent = `${report.model} · ${report.from} to ${report.to} · INR`;
+      } catch (error) {
+        message.textContent = `Unable to load report: ${error.message}`;
+        message.className = 'error';
+      }
+    }
+
+    const today = new Date();
+    const monthStart = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1)).toISOString().slice(0, 10);
+    document.querySelector('#from').value = monthStart;
+    document.querySelector('#to').value = today.toISOString().slice(0, 10);
+    form.addEventListener('submit', event => { event.preventDefault(); loadReport(); });
+    loadReport();
+  </script>
+</body>
+</html>

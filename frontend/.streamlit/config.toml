@@ -1,0 +1,29 @@
+[theme]
+base = "dark"
+primaryColor = "#1a73e8"
+backgroundColor = "#111827"
+secondaryBackgroundColor = "#1f2937"
+textColor = "#f3f4f6"
+borderColor = "#374151"
+font = "sans-serif"
+baseFontSize = 16
+baseFontWeight = 400
+headingFontSizes = ["32px", "24px", "20px", "18px", "16px", "14px"]
+headingFontWeights = [600, 600, 600, 500, 500, 500]
+metricValueFontSize = "1.75rem"
+metricValueFontWeight = 600
+showWidgetBorder = true
+showSidebarBorder = true
+chartCategoricalColors = [
+    "#1a73e8",
+    "#ea8600",
+    "#34a853",
+    "#a142f4",
+    "#fbbc04",
+    "#12a594",
+    "#d93025",
+]
+
+[client]
+toolbarMode = "minimal"
+disableDataExport = true
