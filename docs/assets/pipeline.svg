@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="360" viewBox="0 0 1100 360" role="img" aria-label="AttributionIQ data flow: sources to API to PostgreSQL to recompute worker to dashboard">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b"/>
+    </marker>
+    <style>
+      .box { fill: #1f2937; stroke: #374151; stroke-width: 1.5; }
+      .t   { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #f3f4f6; font-size: 16px; font-weight: 600; text-anchor: middle; }
+      .s   { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #9ca3af; font-size: 12px; text-anchor: middle; }
+      .h   { font-family: "Segoe UI", Helvetica, Arial, sans-serif; fill: #64748b; font-size: 12px; letter-spacing: 2px; text-anchor: middle; }
+      .flow { fill: none; stroke: #475569; stroke-width: 2; stroke-dasharray: 6 6; marker-end: url(#arrow); }
+    </style>
+    <path id="p1" d="M190,70 C235,70 235,150 280,150"/>
+    <path id="p2" d="M190,180 L280,180"/>
+    <path id="p3" d="M190,290 C235,290 235,210 280,210"/>
+    <path id="p4" d="M420,180 L500,180"/>
+    <path id="p5" d="M630,180 L710,180"/>
+    <path id="p6" d="M880,180 L950,180"/>
+  </defs>
+
+  <rect width="1100" height="360" rx="18" fill="#111827"/>
+
+  <text class="h" x="105" y="30">1 · SOURCES</text>
+  <text class="h" x="350" y="30">2 · INGEST</text>
+  <text class="h" x="565" y="30">3 · STORE</text>
+  <text class="h" x="795" y="30">4 · ATTRIBUTE</text>
+  <text class="h" x="1020" y="30">5 · REPORT</text>
+
+  <g>
+    <rect class="box" x="20" y="40" width="170" height="60" rx="10"/>
+    <text class="t" x="105" y="66">Website events</text>
+    <text class="s" x="105" y="85">POST /collect</text>
+    <rect class="box" x="20" y="150" width="170" height="60" rx="10"/>
+    <text class="t" x="105" y="176">Order webhooks</text>
+    <text class="s" x="105" y="195">POST /webhooks/orders</text>
+    <rect class="box" x="20" y="260" width="170" height="60" rx="10"/>
+    <text class="t" x="105" y="286">Ad spend</text>
+    <text class="s" x="105" y="305">POST /ad-spend</text>
+  </g>
+
+  <g>
+    <rect class="box" x="280" y="110" width="140" height="140" rx="12" stroke="#1a73e8"/>
+    <text class="t" x="350" y="160">Spring Boot</text>
+    <text class="t" x="350" y="182">API</text>
+    <text class="s" x="350" y="208">validate · dedupe</text>
+    <text class="s" x="350" y="226">202 Accepted</text>
+  </g>
+
+  <g>
+    <rect class="box" x="500" y="110" width="130" height="140" rx="12" stroke="#12a594"/>
+    <ellipse cx="565" cy="146" rx="26" ry="8" fill="none" stroke="#12a594" stroke-width="2"/>
+    <path d="M539 146v30c0 4.5 11.6 8 26 8s26-3.5 26-8v-30" fill="none" stroke="#12a594" stroke-width="2"/>
+    <text class="t" x="565" y="214">PostgreSQL</text>
+    <text class="s" x="565" y="232">raw data + job queue</text>
+  </g>
+
+  <g>
+    <rect class="box" x="710" y="110" width="170" height="140" rx="12" stroke="#a142f4"/>
+    <text class="t" x="795" y="150">Recompute worker</text>
+    <text class="s" x="795" y="176">identity stitching</text>
+    <text class="s" x="795" y="194">sessions</text>
+    <text class="s" x="795" y="212">first / last-click credit</text>
+    <circle cx="730" cy="128" r="5" fill="#a142f4">
+      <animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <g>
+    <rect class="box" x="950" y="110" width="130" height="140" rx="12" stroke="#34a853"/>
+    <text class="t" x="1015" y="160">Report API</text>
+    <text class="t" x="1015" y="182">+ Dashboard</text>
+    <text class="s" x="1015" y="208">revenue · spend</text>
+    <text class="s" x="1015" y="226">ROAS by channel</text>
+  </g>
+
+  <g>
+    <use href="#p1" class="flow"><animate attributeName="stroke-dashoffset" values="12;0" dur="0.8s" repeatCount="indefinite"/></use>
+    <use href="#p2" class="flow"><animate attributeName="stroke-dashoffset" values="12;0" dur="0.8s" repeatCount="indefinite"/></use>
+    <use href="#p3" class="flow"><animate attributeName="stroke-dashoffset" values="12;0" dur="0.8s" repeatCount="indefinite"/></use>
+    <use href="#p4" class="flow"><animate attributeName="stroke-dashoffset" values="12;0" dur="0.8s" repeatCount="indefinite"/></use>
+    <use href="#p5" class="flow"><animate attributeName="stroke-dashoffset" values="12;0" dur="0.8s" repeatCount="indefinite"/></use>
+    <use href="#p6" class="flow"><animate attributeName="stroke-dashoffset" values="12;0" dur="0.8s" repeatCount="indefinite"/></use>
+  </g>
+
+  <g>
+    <circle r="6" fill="#1a73e8"><animateMotion dur="2s" repeatCount="indefinite" begin="0s"><mpath href="#p1"/></animateMotion></circle>
+    <circle r="6" fill="#1a73e8"><animateMotion dur="2s" repeatCount="indefinite" begin="1s"><mpath href="#p1"/></animateMotion></circle>
+    <circle r="6" fill="#ea8600"><animateMotion dur="2s" repeatCount="indefinite" begin="0.3s"><mpath href="#p2"/></animateMotion></circle>
+    <circle r="6" fill="#ea8600"><animateMotion dur="2s" repeatCount="indefinite" begin="1.3s"><mpath href="#p2"/></animateMotion></circle>
+    <circle r="6" fill="#fbbc04"><animateMotion dur="2s" repeatCount="indefinite" begin="0.6s"><mpath href="#p3"/></animateMotion></circle>
+    <circle r="6" fill="#fbbc04"><animateMotion dur="2s" repeatCount="indefinite" begin="1.6s"><mpath href="#p3"/></animateMotion></circle>
+    <circle r="6" fill="#12a594"><animateMotion dur="1.6s" repeatCount="indefinite" begin="0.4s"><mpath href="#p4"/></animateMotion></circle>
+    <circle r="6" fill="#12a594"><animateMotion dur="1.6s" repeatCount="indefinite" begin="1.2s"><mpath href="#p4"/></animateMotion></circle>
+    <circle r="6" fill="#a142f4"><animateMotion dur="1.6s" repeatCount="indefinite" begin="0.8s"><mpath href="#p5"/></animateMotion></circle>
+    <circle r="6" fill="#a142f4"><animateMotion dur="1.6s" repeatCount="indefinite" begin="0s"><mpath href="#p5"/></animateMotion></circle>
+    <circle r="6" fill="#34a853"><animateMotion dur="1.4s" repeatCount="indefinite" begin="0.2s"><mpath href="#p6"/></animateMotion></circle>
+    <circle r="6" fill="#34a853"><animateMotion dur="1.4s" repeatCount="indefinite" begin="0.9s"><mpath href="#p6"/></animateMotion></circle>
+  </g>
+
+  <text class="s" x="550" y="350">Ingest returns immediately; attribution is recomputed asynchronously from a durable queue, so restarts lose no work.</text>
+</svg>

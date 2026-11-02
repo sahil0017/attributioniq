@@ -1,6 +1,9 @@
-# AttributionIQ
+<p align="center">
+  <img src="docs/assets/banner.svg" alt="AttributionIQ" width="100%">
+</p>
 
 [![CI](https://github.com/sahil0017/attributioniq/actions/workflows/ci.yml/badge.svg)](https://github.com/sahil0017/attributioniq/actions/workflows/ci.yml)
+![Java](https://img.shields.io/badge/Java-21-orange) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4-6db33f) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-336791) ![Streamlit](https://img.shields.io/badge/Streamlit-dashboard-ff4b4b)
 
 First-party attribution pipeline: website events, order webhooks and ad spend
 in; channel revenue / spend / ROAS out (last-click and first-click).
@@ -9,6 +12,12 @@ in; channel revenue / spend / ROAS out (last-click and first-click).
 |--------|----------|
 | [`backend/`](backend/README.md) | Java 21 + Spring Boot 4 API, PostgreSQL, Flyway migrations, ingestion scripts (`backend/scripts/`), reviewer SQL (`backend/queries.sql`) |
 | [`frontend/`](frontend/README.md) | Streamlit dashboard that reads the backend report API |
+
+## How it works
+
+<p align="center">
+  <img src="docs/assets/pipeline.svg" alt="Animated data flow from sources through API, PostgreSQL and recompute worker to the dashboard" width="100%">
+</p>
 
 ## Live demo (Railway)
 
