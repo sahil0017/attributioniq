@@ -36,7 +36,7 @@ public enum FinancialStatus {
                 return status;
             }
         }
-        if ("cancelled".equals(normalized)) {
+        if ("canceled".equals(normalized)) {
             return CANCELLED;
         }
         return UNKNOWN;

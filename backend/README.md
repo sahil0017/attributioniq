@@ -65,19 +65,15 @@ Do not use the development credentials in a shared or production environment.
 
 ### Start the Streamlit dashboard
 
-With the backend running, use a virtual environment to avoid modifying the
-system Python installation:
+The dashboard lives in [`../frontend`](../frontend/README.md). With the backend
+running:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-streamlit run streamlit_app.py
+cd ../frontend
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+ATTRIBUTION_API_URL=http://localhost:8080 streamlit run streamlit_app.py
 ```
-
-The dashboard defaults to `http://localhost:8080`, refreshes every five seconds,
-and shows latest-ingestion time/source and recomputation backlog. Set
-`ATTRIBUTION_API_URL` if the backend uses another base URL.
 
 ## High-level architecture
 
