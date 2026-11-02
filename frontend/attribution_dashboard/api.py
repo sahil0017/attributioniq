@@ -11,6 +11,7 @@ import streamlit as st
 API_URL = os.getenv("ATTRIBUTION_API_URL", "http://localhost:8080").rstrip("/")
 REPORT_URL = f"{API_URL}/api/reports/channels"
 PROCESSING_URL = f"{API_URL}/api/processing/status"
+DATA_RANGE_URL = f"{API_URL}/api/reports/data-range"
 REQUEST_TIMEOUT_SECONDS = 10
 
 CHANNEL_COLUMNS = ["channel", "orders", "revenueInr", "spendInr", "roas"]
@@ -93,3 +94,13 @@ def load_processing_status() -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise RuntimeError("Processing service returned an unexpected status format.")
     return payload
+
+
+@st.cache_data(ttl=30, max_entries=1, show_spinner=False)
+def load_data_range() -> tuple[date, date] | None:
+    """Return the first and last report dates held by the backend, or None if empty."""
+    try:
+        payload = get_json(DATA_RANGE_URL)
+        return date.fromisoformat(payload["from"]), date.fromisoformat(payload["to"])
+    except (RuntimeError, KeyError, TypeError, ValueError):
+        return None

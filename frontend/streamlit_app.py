@@ -4,6 +4,8 @@ from datetime import date, datetime, timedelta, timezone
 
 import streamlit as st
 
+from attribution_dashboard.api import load_data_range
+
 st.set_page_config(
     page_title="AttributionIQ",
     page_icon=":material/analytics:",
@@ -34,6 +36,7 @@ page = st.navigation(
 
 today_utc = datetime.now(timezone.utc).date()
 periods = {
+    "All loaded data": None,
     "Last 7 days": 7,
     "Last 30 days": 30,
     "Last 90 days": 90,
@@ -49,7 +52,7 @@ with st.container(border=True):
     selected_period = filter_columns[0].selectbox(
         "Reporting period",
         options=list(periods),
-        index=1,
+        index=0,
     )
 
     if selected_period == "Custom range":
@@ -65,6 +68,13 @@ with st.container(border=True):
             start_date, end_date = selected_dates
         else:
             start_date, end_date = None, None
+    elif selected_period == "All loaded data":
+        data_range = load_data_range()
+        start_date, end_date = data_range if data_range else (
+            today_utc - timedelta(days=29), today_utc)
+        filter_columns[1].caption(
+            f"Date range: {start_date:%b %d, %Y} – {end_date:%b %d, %Y}"
+        )
     else:
         period_days = periods[selected_period]
         end_date = today_utc
