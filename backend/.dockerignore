@@ -1,0 +1,8 @@
+target/
+.idea/
+*.iml
+scripts/
+requirement/
+docs/
+queries.sql
+*.md
