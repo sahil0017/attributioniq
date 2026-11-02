@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---- build ----
-FROM eclipse-temurin:21-jdk AS build
+FROM eclipse-temurin:25-jdk AS build
 WORKDIR /workspace
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
@@ -11,7 +11,7 @@ RUN ./mvnw -q -B -DskipTests package \
     && cp target/attribution-iq-*.jar app.jar
 
 # ---- runtime ----
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 RUN useradd --system --uid 10001 appuser
 WORKDIR /app
 COPY --from=build /workspace/app.jar app.jar
